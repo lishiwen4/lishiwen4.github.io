@@ -2,7 +2,7 @@ title:            sven
 description:      "BLOGGING ME"
 logo:             logo.png
 disqus_shortname: sven
-share:            true
+share:            false
 dropcap:          true
 # Change url to your domain. Leave localhost server or blank when working locally.
 # or use the hint from http://jekyllrb.com/docs/github-pages/ to keep this the same
