@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<title>WPAS与CLIENT的通信 &vert; SVEN</title>
+<meta name="description" content="Infer usage from system log in Mac OS">
+<meta name="keywords" content="Data">
+
+
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WPAS与client的通信">
+<meta property="og:description" content="Infer usage from system log in Mac OS">
+<meta property="og:url" content="/wifi/WPAS-connect-with-client">
+<meta property="og:site_name" content="sven">
+<meta property="og:image" content="/images/cover10.jpg">
+
+
+
+
+
+<link rel="canonical" href="/wifi/WPAS-connect-with-client">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="sven Feed">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,600,300,800,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="/assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/vendor/normalize.css">
+    <link rel="stylesheet" href="/assets/css/vendor/nprogress.css">
+    <link rel="stylesheet" href="/assets/css/vendor/foundation.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/post.css">
+
+
+
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+    <style type="text/css">@media only screen and (min-width:43.75em){.notepad-post-content div>p:first-child:first-letter{float:left;font-size:4.688rem;line-height:4.375rem;padding-top:.25rem;padding-right:.5rem;padding-left:.188rem;font-family:serif}}</style>
+  </head>
+  <body class="post-template" itemscope itemtype="http://schema.org/WebPage">
+    
+    <main id="notepad-post-container" class="notepad-post-container intro-effect-sliced" role="main">
+      <header class="notepad-post-header">
+        <div class="bg-img"></div>
+
+        <div class="notepad-post-menu-header">
+          
+                <a class="notepad-blog-logo" href="/">
+                  <img src="/images/logo.png" alt="Blog Logo" />
+                </a>
+
+                <div class="notepad-blog-menu">
+                  <div class="notepad-mobile-menu show-for-small">
+                    <a href="#"><i class="fa fa-bars"></i></a>
+                  </div>
+                  <ul class="notepad-menu">
+                    <li class="notepad-mobile-close-btn show-for-small text-right">
+                      <a href="#"><i class="fa fa-times"></i></a>
+                    </li>
+                    
+                    <li>
+                      <a href="/">Home</a>
+                       </li>
+                    
+                    <li>
+                      <a href="/categories">Categories</a>
+                       </li>
+                    
+                    <li>
+                      <a href="/about">About</a>
+                       </li>
+                    
+                    <li><a href="/feed.xml" title="Atom/RSS feed"><i class="icon-rss"></i> Feed</a></li>
+                  </ul>
+
+                </div>
+              </div>
+              
+              <div class="notepad-post-title bg-check">
+                <h1>WPAS与client的通信</h1>
+                <p>by <strong>sven</strong> &#8212; on <a href="/tags/index.html#Data" data-toggle="tooltip" title="Posts tagged with Data" rel="tag">Data</a> <strong><time datetime="2015-05-18T00:00:00+08:00">18 May 2015</time></strong></p>
+              </div>
+              <div class="bg-img"></div>
+            </header>
+            <button class="trigger bg-check" data-info="Read more"><span>Trigger</span></button>
+            <img src="/images/cover10.jpg" alt="cover-image" />
+            
+      <article class="notepad-post-content post">
+          <div><h3 id="wpas">1. WPAS支持的连接方式</h3>
+
+<p>WPAS支持client使用如下几种方式来进行连接： </p>
+
+<ul>
+  <li>named pipe</li>
+  <li>udp socket</li>
+  <li>unix socket  </li>
+</ul>
+
+<p>在Android和Linux上， wpa_cli通常使用unix socket来连接WPAS  </p>
+
+<h3 id="wpas-1">2. WPAS的控制接口</h3>
+
+<p>在socket通信时， server端在定义好的端口上监听， client端发起连接，而WPAS所监听的端口被称作WPAS的控制接口， 在unix socekt address中， 没有端口号， 由一个文件路径来标识地址， 这一控制接口， 因此， 在下文中也将这一文件的路径称作WPAS的控制接口， 用以下方式来指定  </p>
+
+<ol>
+  <li>在WPAS启动参数中， 使用“-g”选项来指定全局的控制接口  </li>
+  <li>在WPAS中为每一个无线网络接口单独使用“-C”选项来指定  </li>
+  <li>在WPAS中使用“-O”来指定override的控制接口， 可以覆盖第2步指定的控制接口对应的文件路径    </li>
+</ol>
+
+<p>在Android中, 启动WPAS时， 使用了 “-g” 和 “-O” 两个选项  </p>
+
+<p>首先，在WPAS启动参数中使用“-g”指定的全局控制接口， 对应的文件路径为“/dev/sockets/wpa_wlan0”，在WPAS初始化时， 会监听该控制接口  </p>
+
+<pre><code>static int wpas_global_ctrl_iface_open_sock(struct wpa_global *global,struct ctrl_iface_global_priv *priv)
+{
+	......
+	if (os_strncmp(ctrl, "@android:", 9) == 0) {
+		priv-&gt;sock = android_get_control_socket(ctrl + 9);
+	......
+	eloop_register_read_sock(priv-&gt;sock, wpa_supplicant_global_ctrl_iface_receive, global, priv);
+	......
+}
+</code></pre>
+
+<p>另外在启动WPAS时， 使用“-O”指定的控制接口文件路径为”/data/misc/wifi/sockets”， 这其实是一个目录， 在该目录下会根据无线网络接口的名称， 为每一个无线网络接口生成一个控制接口文件， 例如“/data/misc/wifi/sockets/wlan0”， “/data/misc/wifi/sockets/p2p0“  </p>
+
+<pre><code>static char * wpa_supplicant_ctrl_iface_path(struct wpa_supplicant *wpa_s)
+{
+	......
+	pbuf = os_strdup(wpa_s-&gt;conf-&gt;ctrl_interface);
+	......
+	dir = pbuf;
+	......
+	res = os_snprintf(buf, len, "%s/%s", dir, wpa_s-&gt;ifname);
+	......
+	return buf;
+}
+
+static int wpas_ctrl_iface_open_sock(struct wpa_supplicant *wpa_s, struct ctrl_iface_priv *priv)
+{
+	......
+	fname = wpa_supplicant_ctrl_iface_path(wpa_s);
+	......
+	os_strlcpy(addr.sun_path, fname, sizeof(addr.sun_path));
+	if (bind(priv-&gt;sock, (struct sockaddr *) &amp;addr, sizeof(addr)) &lt; 0) {
+	......
+	eloop_register_read_sock(priv-&gt;sock, wpa_supplicant_ctrl_iface_receive, wpa_s, priv);
+	......
+}
+</code></pre>
+
+<p>下面，使用netstat来检查一下， Android设备上， WPAS是否在这些控制接口上监听：  </p>
+
+<ol>
+  <li>关闭wifi， 以及Settings -&gt; advanced -&gt; Scanning always avaliable  </li>
+  <li>reboot 设备  </li>
+  <li>adb shell</li>
+  <li>setprop ctl.start p2p_supplicant  </li>
+  <li>busybox netstat -axp | grep wpa</li>
+</ol>
+
+<p>输出的结果如下 : </p>
+
+<pre><code>unix  2      [ ]         DGRAM                    187045 17937/wpa_supplican /dev/socket/wpa_wlan0
+unix  2      [ ]         DGRAM                    185121 17937/wpa_supplican /data/misc/wifi/sockets/wlan0
+unix  2      [ ]         DGRAM                    185127 17937/wpa_supplican /data/misc/wifi/sockets/p2p0  
+</code></pre>
+
+<p>可以看到WPAS在3个unix socket(及WPAS的控制接口)上监听 ：  </p>
+
+<ol>
+  <li>全局控制接口 “/dev/socket/wpa_wlan0”</li>
+  <li>wlan0 的控制接口 “/data/misc/wifi/sockets/wlan0”</li>
+  <li>p2p0的控制接口 “data/misc/wifi/sockets/p2p0”</li>
+</ol>
+
+<h3 id="libwpaclientso">3. libwpa_client.so</h3>
+
+<p>WPAS提供了2种client ： </p>
+
+<ul>
+  <li>字符模式下的wpa_cli</li>
+  <li>GUI模式下的wpa_gui</li>
+</ul>
+
+<p>另外， WPAS源码还可以编译出libwpa_client.so 用于开发client  </p>
+
+<p>在android上， wifi service 在native 层使用libwpa_client.so提供的功能来直接和WPAS通信，而在开发过程中， 也经常使用wpa_cli来进行调试  </p>
+
+<p>libwpa_client.so 的源码为： “wpa_supplicant/src/common/wpa_ctrl.c” 和 “wpa_supplicant/src/utils/os_unix.c”, 而wpa_cli和wpa_gui也是静态编译了这些代码，相当于也是使用libwpa_client.so来连接WPAS， libwpa_client.so 提供的接口为：  </p>
+
+<pre><code>struct wpa_ctrl * wpa_ctrl_open(const char *ctrl_path);
+void wpa_ctrl_close(struct wpa_ctrl *ctrl);
+int wpa_ctrl_request(struct wpa_ctrl *ctrl, const char *cmd, size_t cmd_len,
+	char *reply, size_t *reply_len, void (*msg_cb)(char *msg, size_t len));
+int wpa_ctrl_attach(struct wpa_ctrl *ctrl);
+int wpa_ctrl_detach(struct wpa_ctrl *ctrl);
+int wpa_ctrl_recv(struct wpa_ctrl *ctrl, char *reply, 
+	size_t *reply_len);
+int wpa_ctrl_pending(struct wpa_ctrl *ctrl);
+int wpa_ctrl_get_fd(struct wpa_ctrl *ctrl);
+void wpa_ctrl_cleanup(void);
+</code></pre>
+
+<ul>
+  <li>wpa_ctrl_open() ： 连接WPAS的控制接口, 可以是WPAS的全局控制接口，也可以是为每一个无线网络接口指定的控制接口</li>
+  <li>wpa_ctrl_close() : 关闭wpa_ctrl_open()打开的连接  </li>
+  <li>wpa_ctrl_request() : 通过建立的连接向WPAS发送消息  </li>
+  <li>wpa_ctrl_attach() : 使用wpa_ctrl_open()建立的连接， WPAS默认不会向这些连接的client端发送event， 必须显示调用wpa_ctrl_attach()，才能接收到消息  </li>
+  <li>wpa_ctrl_detach() : 取消wpa_ctrl_attach()</li>
+  <li>wpa_ctrl_recv() : 接收WPAS端发来的event， 必须要先在打开的连接上调用wpa_ctrl_attach()才能接收到event， 当无event可读时， 此调用会被block住  </li>
+  <li>wpa_ctrl_pending() : 检查是否有pending的event， 若有则可以调用wpa_ctrl_recv()来接收  </li>
+  <li>wpa_ctrl_get_fd() : 获取同WPAS的连接中， client端的fd， 获取的fd可以用于select， epoll等， 但是不能直接用于收发消息， 必须使用wpa_ctrl_request()和wpa_ctrl_recv（） </li>
+  <li>wpa_ctrl_cleanup() : 当使用unix socekt 进行连接时，会建立socket文件， 若其carsh， 则会遗留这些文件， wpa_ctrl_cleanup()用于清理这些文件  </li>
+</ul>
+
+<h3 id="wpactrlopen">4. wpa_ctrl_open()</h3>
+
+<p>在wpa_supplicant/Android.mk中有  </p>
+
+<pre><code>L_CFLAGS += -DCONFIG_CTRL_IFACE_CLIENT_DIR=\"/data/misc/wifi/sockets\"
+</code></pre>
+
+<p>再来看wpa_ctrl_open的源码  </p>
+
+<pre><code>#ifndef CONFIG_CTRL_IFACE_CLIENT_PREFIX
+#define CONFIG_CTRL_IFACE_CLIENT_PREFIX "wpa_ctrl_"
+#endif /* CONFIG_CTRL_IFACE_CLIENT_PREFIX */
+
+struct wpa_ctrl * wpa_ctrl_open(const char *ctrl_path)
+{
+    ......
+    ret = os_snprintf(ctrl-&gt;local.sun_path, sizeof(ctrl-&gt;local.sun_path),
+            CONFIG_CTRL_IFACE_CLIENT_DIR "/"
+            CONFIG_CTRL_IFACE_CLIENT_PREFIX "%d-%d",
+       (int) getpid(), counter);
+    ......
+    if (bind(ctrl-&gt;s, (struct sockaddr *) &amp;ctrl-&gt;local,
+	    sizeof(ctrl-&gt;local)) &lt; 0) {
+    ......
+    if (os_strncmp(ctrl_path, "@android:", 9) == 0) {
+        if (socket_local_client_connect(
+                ctrl-&gt;s, ctrl_path + 9,
+                ANDROID_SOCKET_NAMESPACE_RESERVED,
+                SOCK_DGRAM) &lt; 0) {
+    ......
+    res = os_strlcpy(ctrl-&gt;dest.sun_path, ctrl_path,
+        sizeof(ctrl-&gt;dest.sun_path));
+    ........
+    if (connect(ctrl-&gt;s, (struct sockaddr *) &amp;ctrl-&gt;dest,
+        sizeof(ctrl-&gt;dest)) &lt; 0) {
+    ......
+}
+</code></pre>
+
+<p>android上， 调用wpa_ctrl_open()时，传递的WPAS的控制接口要么是”@android:wpa_wlan”， 要么是“/data/misc/wifi/sockets/wlan0”这样的控制接口， wpa_ctrl_open()会为client端绑定地址， 并生成对应的文件， 文件路径为“/data/misc/wifi/sockets/wpa_ctrl_xx_yy”， 其中xx为client端的pid， yy为client端的进程的client计数， 从1，2，3依次递增  </p>
+
+<h3 id="wifi-servicewpas">5. wifi service连接WPAS</h3>
+
+<p>wifi service 通过wifi HAL(链接libwpa_client.so)来同WPAS交互，且使用全局控制接口“/dev/sockets/wpa_wlan0”， 这一工作在“/hardware/libhadware_legacy/wifi/wifi.c”中完成，其会使用“@android:wpa_wlan0”作为参数来调用wpa_ctrl_open()， 在settings中打开wifi后通过netstat可以查看到：  </p>
+
+<pre><code>unix  4      [ ]         DGRAM                     40347 8005/wpa_supplicant /dev/socket/wpa_wlan0
+unix  2      [ ]         DGRAM                     43667 8005/wpa_supplicant /data/misc/wifi/sockets/wlan0
+unix  2      [ ]         DGRAM                     43675 8005/wpa_supplicant /data/misc/wifi/sockets/p2p-dev-wlan0
+unix  2      [ ]         DGRAM                     43679 561/system_server   /data/misc/wifi/sockets/wpa_ctrl_561-5
+unix  2      [ ]         DGRAM                     43680 561/system_server   /data/misc/wifi/sockets/wpa_ctrl_561-6
+</code></pre>
+
+<p>wifi service运行在system_server进程中， “/dev/socket/wpa_wlan0“的refcount为4， 说明有两个client端的连接， 而系统中的client只有system_server， 在wifi HAL中会打开两个连接， 一个称为ctrl， 用于向WPAS发送cmd并获取结果， 一个称为monitor， 用于监听WPAS发送出来的event  </p>
+
+<p>需要注意的是， 在使用全局控制接口来连接WPAS时， 一些sta相关的cmd(例如scan， scan_result)需要指定interface，在wifiNative的代码中可以看到   </p>
+
+<pre><code>public WifiNative(String interfaceName) {
+    ......
+    	    if (!interfaceName.equals("p2p0")) {
+             mInterfacePrefix = "IFNAME=" + interfaceName + " ";
+    	    } else {
+             // commands for p2p0 interface don't need prefix
+             mInterfacePrefix = "";
+    	    }
+	}
+
+private boolean doBooleanCommand(String command) {
+    ......
+         boolean result = doBooleanCommandNative(mInterfacePrefix + command);
+             ......
+             return result;
+    	    }
+	}
+</code></pre>
+
+<p>在使用全局控制接口来对STA类型的无线网络接口执行cmd时， 需要加“IFNAME=xxx”前缀来指明无线网络接口(有些cmd不许要指定， 但是指定了也不会有影响)，而对p2p类型的无线网络接口则不需要指明</p>
+
+<h3 id="wpacliwpas">6. wpa_cli连接WPAS</h3>
+
+<p>当使用wpa_cli连接WPAS的时候， 指定控制接口的时候， 有两种选择：  </p>
+
+<ul>
+  <li>使用无线网络接口的特定控制接口 : 例如， “/data/misc/wifi/sockets/wlan0”, “/data/misc/wifi/sockets/p2p0”, 然后在wpa_cli中直接执行命令</li>
+  <li>使用全局的控制接口 : 例如， “/dev/sockets/wlan0”, “/dev/sockets/p2p0”, 然后在wpa_cli中执行命令， 有些命令需要添加“IFNAME=xxx”前缀</li>
+</ul>
+
+<p>cmd如下：</p>
+
+<pre><code>wpa_cli -p /data/misc/wisi/socket/ -i wlan0  
+wpa_cli -g @android:wpa_wlan0  
+</code></pre>
+
+<h3 id="wpascmd">7. wpas处理cmd</h3>
+
+<ul>
+  <li>在使用wpa_cli连接到WPAS时，若进入wpa_cli的shell中执行cmd， 则由wpa_cli_action()来调用wpa_ctrl_request()来请求WPAS处理cmd， 若不进入wpa_cli的shell， 只执行一条cmd， 则直接在wpa_cli的main()中调用wpa_ctrl_request()来请求WPAS处理cmd  </li>
+  <li>android上的wifi HAL会直接调用wpa_ctrl_request()来请求WPAS处理cmd  </li>
+</ul>
+
+<p>因此，先来看wpa_ctrl_request()的实现  </p>
+
+<pre><code>int wpa_ctrl_request(struct wpa_ctrl *ctrl, 
+        const char *cmd, size_t cmd_len,
+        char *reply, size_t *reply_len,
+        void (*msg_cb)(char *msg, size_t len))
+{
+    ......
+    if (send(ctrl-&gt;s, _cmd, _cmd_len, 0) &lt; 0) {
+    ......
+    res = select(ctrl-&gt;s + 1, &amp;rfds, NULL, NULL, &amp;tv);
+    ......
+    res = recv(ctrl-&gt;s, reply, *reply_len, 0);
+    ......
+}
+</code></pre>
+
+<p>依次是 send(), select(), recv() 三步， client将cmd发送给WPAS处理， 然后读取wpas的返回， 接下来看WPAS对cmd的处理：  </p>
+
+<ul>
+  <li>WPAS的全局控制接口的read event由wpa_supplicant_global_ctrl_iface_receive()处理</li>
+  <li>WPAS的无线网络特定的接口的特定控制接口的read event由wpa_supplicant_ctrl_iface_receive()处理  </li>
+</ul>
+
+<p>事实上， wpa_supplicant_global_ctrl_iface_receive() 和 wpa_supplicant_ctrl_iface_receive() 只会处理两条简单的cmd ：  </p>
+
+<ul>
+  <li>ATTACH ： 即wpa_ctrl_attach()的实现， WPAS会将相应的client端地址加入到某个链表中(WPAS在发送EVENT时， 会遍历该链表，给每一个地址发送一次)  </li>
+  <li>DETACH ： 即wpa_ctrl_detach()的实现， WPAS会将相应的client端地址移除出某个链表中(WPAS在发送EVENT时， 会遍历该链表，给每一个地址发送一次)  </li>
+</ul>
+
+<p>其它的cmd分别由wpa_supplicant_global_ctrl_iface_process()和wpa_supplicant_ctrl_iface_process()来处理  </p>
+
+<p>前面我们提到过全局控制接口和各无线网络接口的区别， 即在使用全局控制接口时， 有一些cmd前面需要添加“IFNAME=xxx”前缀来指定对哪一个无线网络接口来执行命令， wpa_supplicant_global_ctrl_iface_receive()在处理完“IFNAME=xxx”之后， 余下的处理工作还是调用wpa_supplicant_ctrl_iface_process()来完成， 事实上， 所有的cmd都可由wpa_supplicant_ctrl_iface_process()来完成， 下面， 只需要来关注wpa_supplicant_ctrl_iface_process()即可  </p>
+
+<p>在wpa_supplicant_ctrl_iface_process()中会匹配传递进来的cmd， 依次调用相应的函数来处理， 因cmd太多， 这里不再举例， 请自行查看  </p>
+
+<h3 id="end">END</h3>
+
+
+          </div>
+        </article>
+        <div class="cf"></div>
+                <div class="row text-center">
+            <section class="notepad-post-share">
+                <a class="twitter-icon" href="https://twitter.com/intent/tweet?text=&quot;WPAS与client的通信&quot;%20/wifi/WPAS-connect-with-client%20via%20&#64;"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Share on Twitter">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a class="facebook-icon" href="https://www.facebook.com/sharer/sharer.php?u=/wifi/WPAS-connect-with-client"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a class="google-icon" href="https://plus.google.com/share?url=/wifi/WPAS-connect-with-client"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google+">
+                    <i class="fa fa-google-plus"></i>
+                </a>
+            </section>
+        </div>
+        <div class="cf"></div>
+
+                    <div class="notepad-author-info">
+                <div class="row">
+                    <section class="notepad-post-author small-12 columns">
+                        
+                            <img src="/images/sven.jpg" class="notepad-post-author-avatar" alt="sven's photo">
+                        
+                        
+                            <span class="author-label">Author</span>
+                            <h1>sven</h1>
+                        
+                        
+                            <p><a href="mailto:lishiwen4@gmail.com" class="author-website">lishiwen4@gmail.com</a></p>
+                        
+                        
+                            <p>Live long and prosper</p>
+                        
+                    </section>
+                </div>
+            </div>
+
+        <div class="cf"></div>
+        
+        <div class="cf"></div>
+
+        <footer class="notepad-site-footer">
+    <div class="copyright">
+         <section>All content copyright <a href="/about">sven</a> &copy; 2015 &bull; All rights reserved.</section>
+         <section>Proudly published with <a class="icon-ghost" href="https://jekyllrb.com/">Jekyll</a></section>
+         <section>Theme powered by <a class="icon-ghost" href="https://twitter.com/hmfaysal">@hmfaysal</a></section>
+    </div>
+    <div class="social-icons">
+        
+        
+        <a href="http://github.com/lishiwen4" target="_blank">
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+                <i class="fa fa-github fa-stack-1x"></i>
+            </span>
+        </a>
+        
+        
+        
+        
+        
+        
+        
+    </div>
+    
+    <div class="cf"></div>
+</footer>
+      </main>
+          <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+    <script src="/assets/js/vendor/modernizr.js"></script>
+    <script src="/assets/js/foundation.min.js"></script>
+    <script src="/assets/js/vendor/background-check.js"></script>
+    <script src="/assets/js/vendor/post-header-animations.js"></script>
+    <script src="/assets/js/notepad.js"></script>
+    <script src="/assets/js/scripts.min.js"></script>
+    <script src="/assets/js/vendor/nprogress.js"></script>
+
+    <script>
+      $(document).foundation();
+    </script>
+
+
+
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-54927045-1', 'auto');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+<script>NProgress.start();var interval=setInterval(function(){NProgress.inc()},1000);jQuery(window).load(function(){clearInterval(interval);NProgress.done()});jQuery(window).unload(function(){NProgress.start()});</script>
+  </body>
+</html>
