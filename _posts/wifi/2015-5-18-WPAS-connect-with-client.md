@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "WPAS与client的通信"
-description: "Infer usage from system log in Mac OS"
+description:
 category: wifi
 tags: [Data]
 imagefeature: cover10.jpg
