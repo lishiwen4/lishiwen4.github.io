@@ -17,11 +17,11 @@ linux内核从3.7 开始加入模块签名检查机制， 校验签名是否与�
 linux 内核中与模块签名验证相关的config项有：  
 
 + CONFIG_MODULE_SIG ： 模块签名验证功能， 配置为‘y’后， 还有如下的子选项可以配置
-+ CONFIG_MODULE_SIG_FORCE ：是否验证模块的签名， 配置为‘n’时， 对于未签名或者使用无效的key签名的模块， 内核都允许加载， 但是kernel会被标记为被感染(tainted), 并且使用商业许可的模块也会被标记为被感染, 若配置为‘y’， 则只有正确签名的模块才能被允许加载， 其他的模块将被拒绝加载， 并且kernel回打出错误信息  
++ CONFIG_MODULE_SIG_FORCE ：是否验证模块的签名， 配置为‘n’时， 对于未签名或者使用无效的key签名的模块， 内核都允许加载， 但是kernel会被标记为被感染(tainted), 并且使用商业许可的模块也会被标记为被感染, 若配置为‘y’， 则只有正确签名的模块才能被允许加载， 其他的模块将被拒绝加载， 并且kernel会打出错误信息  
 + CONFIG_MODULE_SIG_ALL ： 若配置为'n', 则在build kernel的过程中， 所有的模块都不会被签名， 需要自己手动签名， 若被配置为‘y’， 则在build kernel的 “modules_install”阶段， 所有的模块都会被自动签名  
 
 若不希望在加载模块的过程中进行签名验证， 只需要在build kernel 时关闭相关config项即可
-
+**若build kernel 时打开了CONFIG_MODULE_SIG， 但是没有打开CONFIG_MODULE_SIG_FORCE， 则还可以在启动kernel时差undineihe参数”module.sig_enforce“来打开模块签名验证**
 内核提供了多种签名算法供使用， 可在编译内核时进行配置  
 
 + CONFIG_MODULE_SIG_SHA1
