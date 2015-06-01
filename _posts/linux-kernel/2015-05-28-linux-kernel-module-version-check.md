@@ -234,10 +234,10 @@ CRC校验值通过命令genksyms来生成的,它会讲一个符号中的所有�
 
 版本检查又分为 vermagic 检查和 CRC校验检查， 这又和内核的编译选项"CONFIG_MODVERSIONS"相关
 
-+ **kernel 打开 CONFIG_MODVERSIONS， module 不打开 CONFIG_MODVERSIONS** ： 将不会检查CRC， 但是会完整匹配vermagic  
++ **kernel 打开 CONFIG_MODVERSIONS， module 不打开 CONFIG_MODVERSIONS** ： 将不会检查CRC， 但是会完整匹配vermagic, 但是因为两者的vermagic中“modversions”的差别, 模块将不能加载成功
 + **kernel 打开 CONFIG_MODVERSIONS， module 打开 CONFIG_MODVERSIONS**， 将会检查CRC， 然后匹配vermagic的第一个空格后的部分， 例如， 若vermagic为“3.10.49-gc7c11ec SMP preempt mod_unload modversions aarch64”， 则只会使用"SMP preempt mod_unload modversions aarch64来匹配", 即SMP， 模块卸载等关键特性还是需要进行检查  
-+ **kernel 不打开 CONFIG_MODVERSIONS， module 打开 CONFIG_MODVERSIONS**， 将会完整匹配vermagic
-+ **kernel 不打开 CONFIG_MODVERSIONS， module 不打开 CONFIG_MODVERSIONS**， 不会检查CRC和vermagic
++ **kernel 不打开 CONFIG_MODVERSIONS， module 打开 CONFIG_MODVERSIONS**， 将会完整匹配vermagic, 但是因为两者的vermagic中“modversions”的差别, 模块将不能加载成功
++ **kernel 不打开 CONFIG_MODVERSIONS， module 不打开 CONFIG_MODVERSIONS**， 完整匹配vermagic
 
 ###5. 忽略版本检查  
 
