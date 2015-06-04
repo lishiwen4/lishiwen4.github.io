@@ -2,7 +2,7 @@
 layout: post
 title: "gdb 远程调试在android上的应用"
 description:
-category: [tool,android]
+category: android
 tags: [Data]
 imagefeature: cover10.jpg
 mathjax: 
