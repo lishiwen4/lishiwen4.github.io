@@ -56,13 +56,15 @@ linux的内核版本号(KERNELRELEASE)在编译的过程中生成， 存储在�
     		res="$res$(collect_files "$srctree"/localversion*)"
 	fi
 
-首先，若编译kernel的out目录中存在以“localversion”开头的文件， 则将其内容添加到LOCALVERSION中  
-其次，若kernel的src目录中存在以“localversion”开头的文件， 则也将其内容添加到LOCALVERSION中
+上面代码， 执行如下的步骤：
+
+1. 首先，若编译kernel的out目录中存在以“localversion”开头的文件， 则将其内容添加到LOCALVERSION中  
+2. 其次，若kernel的src目录中存在以“localversion”开头的文件， 则也将其内容添加到LOCALVERSION中
 
 	# CONFIG_LOCALVERSION and LOCALVERSION (if set)
 	res="${res}${CONFIG_LOCALVERSION}${LOCALVERSION}"
 
-若定义了CONFIG_LOCALVERSION或者LOCALVERSION变量， 依次将它们添加到LOCALVERSION中
+如上两行代码， 在定义了CONFIG_LOCALVERSION或者LOCALVERSION变量时， 依次将它们添加到LOCALVERSION中
 
 	# scm version string if not at a tagged commit
 	if test "$CONFIG_LOCALVERSION_AUTO" = "y"; then
@@ -79,8 +81,10 @@ linux的内核版本号(KERNELRELEASE)在编译的过程中生成， 存储在�
     	    fi  
 	fi
 
-+ 如果 CONFIG_LOCALVERSION_AUTO=y， 则会在最终的LOCALVERSION后追加一段由版本控制工具git或者svn生成的版本信息， 对于git， 如果打了tag，则会使用tag， 否则， 使用字母‘g’再加上最新的commit ID的前7位， 例如 “3.10.49-gde6b4c1”, 若存在未被追踪的修改， 则还会添加" -dirty"字样
-+ 如果 CONFIG_LOCALVERSION_AUTO=n， 且未指定LOCALVERSION变量则会在最终的LOCALVERSION后追加‘+’， 例如 “3.10.49+”
+上面的代码， 执行如下步骤：
+
+1.  如果 CONFIG_LOCALVERSION_AUTO=y， 则会在最终的LOCALVERSION后追加一段由版本控制工具git或者svn生成的版本信息， 对于git， 如果打了tag，则会使用tag， 否则， 使用字母‘g’再加上最新的commit ID的前7位， 例如 “3.10.49-gde6b4c1”, 若存在未被追踪的修改， 则还会添加" -dirty"字样
+2. 如果 CONFIG_LOCALVERSION_AUTO=n， 且未指定LOCALVERSION变量则会在最终的LOCALVERSION后追加‘+’， 例如 “3.10.49+”
 
 最后按照不同的组合情况， 列出LOCALVERSION的取值， 其中"\[\]"表示可选， "&lt;&gt;"表示一定存在 ：
 
@@ -217,11 +221,11 @@ CRC校验值通过命令genksyms来生成的,它会讲一个符号中的所有�
 	[13] __kcrctab         PROGBITS         0000000000000038  000001c0  0000000000000008  0000000000000000  WA       0     0     8  
 	[14] .rela__kcrctab    RELA             0000000000000000  00010350  0000000000000018  0000000000000018          34    13     8  
 
-而当module 引用了由kernel或者其它的模块导出的符号时， 在编译的过程中， 需要读取kernel或者其它的module的“Module.symvers”， 依赖的其它的module的“Module.symvers”需要放置到当前driver的source目录下
+而当module 引用了由kernel或者其它的模块导出的符号时， 在编译的过程中， 需要读取kernel或者其它的module的“Module.symvers”， 依赖的其它的module的“Module.symvers”需要放置到当前driver的source目录下， 或者在Makefile中使用“KBUILD_EXTRA_SYMBOLS=”来指定所依赖的模块的Module.symvers文件的内容
 
 在生成的ko文件中， 会有一个 “__versions” 节, 里面保存了module所引用的符号和对应CRC校验值， 在build module过程中的 xxx.mod.c中可以看到完整的内容, 还可以使用modeprobe的“--dump-modversions”来查看  
 
-如果你的模块在一个“”被打开的内核环境中编译， 你的每一个.c源码文件中都必须包含“linux/modversions.h”文件， 可以通过gcc的“-include”选项减轻负担
+如果你的模块在一个“CONFIG_MODVERSIONS”被打开的内核环境中编译， 你的每一个.c源码文件中都必须包含“linux/modversions.h”文件， 可以通过gcc的“-include”选项减轻负担
 
 	ifdef CONFIG_MODULES
 	ifdef CONFIG_MODVERSIONS
