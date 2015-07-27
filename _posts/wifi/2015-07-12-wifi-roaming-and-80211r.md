@@ -2,7 +2,7 @@
 layout: post
 title: "wifi漫游与802.11r"
 description:
-category: android
+category: wifi
 tags: [Data]
 imagefeature: cover10.jpg
 mathjax: 
