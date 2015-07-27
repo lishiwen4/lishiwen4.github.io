@@ -2,7 +2,7 @@
 layout: post
 title: "EAP 认证"
 description:
-category: android
+category: wifi
 tags: [Data]
 imagefeature: cover10.jpg
 mathjax: 
