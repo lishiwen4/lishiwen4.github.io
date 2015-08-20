@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "MAC 地址"
-description: 1234615
+description:
 category: network
 tags: [Data]
 imagefeature: cover10.jpg
