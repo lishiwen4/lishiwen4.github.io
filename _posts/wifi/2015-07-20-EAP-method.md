@@ -104,6 +104,82 @@ EAP的架构非常灵活，在Authenticator（认证方）和Supplicant（客户
 + EAP-AKA`
 + EAP-FAST 
 
+###5.1. EAP协议的数据格式
+
+EAP的消息数据格式为
+
+
+	 1byte    1byte       2byte    2byte
+	+------+------------+--------+------+-----------+
+	| Code | Identifier | Length | Type | Type Data |
+	+------+------------+--------+------+-----------+ 
+	                             | ----- Data ----- |
++ Code ： 代表EAP消息的类型， 取值有四种
+   1. Request
+   2. Response
+   3. Success
+   4. Failure
++ Identifier ： 消息的ID， 用于配对Request和Response
++ Length ： EAP消息的内容， 包括从 “Code” 到 “Type Data”的所有字段的长度
++ Data ： EAP消息的数据部分， 当EAP消息为“Request”和“response”类型时， Data还可以细分为两个字段：
+   1. Type ： EAP Method Type
+   2. Type Data ： EAP Method Type 对应的数据
+
+其中， EAP Method Type取值有：
+
+1. 代表Identity， 用于Request消息中， 其Type Data中一般携带申请者的一些信息， 简写为 EAP-Request/Identity 或者 Request/Identity
+2. 代表Notification， 认证者用它来传递一些消息(例如密码已经过期， 帐号被锁等)给申请者， 一般简写为 Request/Notification
+3. 代表Nak， 表示否定确认， 一般简写为 Response/Nak
+4. 代表使用MD5身份验证算法
+5，代表使用OTP身份验证算法(例如短信密码)
+6. 代表使用GTC身份验证算法(例如网银和游戏的将军令这种设备生成的密码)
+254. 代表使用扩展验证
+255. 保留， 用于实验用途
+
+####5.2 EAPOL
+
+EAPOL (EAP On Lan) 是 EAP 在以太网上面的实现， 由802.1x定义
+
+先来看以太网的帧格式(Ethernet II帧格式)
+
+	   6byte     6byte     2byte 46～1500byte  4byte
+	+---------+----------+------+------------+-----+
+	| src MAC | dest MAC | type |    Data    | FCS |
+	+ --------+----------+------+------------+-----+
+
++ type : Ethernet 帧为802.1x (EAPOL) 分配的type为 0x888e， linux中定义为 ETH_P_PAE
++ data : 存放EAPOL帧
+
+EAPOL帧格式为
+
+	  1byte     1byte   2byte
+	+---------+------+--------+------+
+	| Version | type | Length | Body |
+	+---------+------+--------+------+
+
++ Version ： 802.1x版本
+   1. 代表 802.1x-2001
+   2. 代表 802.1x-2004
+   3. 代表 802.1x-2010
++ type ： **EAPOL除了可以承载EAP消息外， 还可一承载其它的EAPOL消息**，该字段用于标识消息的类型
+   0. 代表 EAPOL-Packet， 承载的是EAP消息
+   1. 代表 EAPOL-Start， 用于发起认证请求
+   2. 代表 EAPOL-Logoff， 退出身份认证， 停止使用网络
+   3. 代表 EAPOL-Key， 用于交换加密信息
++ Length ： Body (数据)的长度， 如果为0， 则代表没有携带数据
++ Body ： EAPOL帧的数据部分
+
+当EAPOL帧的类型为 EAPOL-Key时， 其Body的格式为
+
+		1byte
+	+-----------------+-----------------+
+	| Descriptor Type | Descriptor Body |
+	+-----------------+-----------------+
+
+**当Descriptor Type为2时， 表示Descriptor Body为EAPOL RSN key, 内容由802.11协议来定义， 见 802.11 spec 11.6.2节**
+
+EAPOL帧在二层传送时，必须要有目标MAC地址，当客户端和认证系统彼此之间不知道发送的目标时，其目标MAC地址使用由802.1x协议分配的组播地址01-80-c2-00-00-03
+
 ###6. 基于TLS的EAP认证
 
 安全传输层协议TLS (Transport Layer Security）用于在两个通信应用程序之间提供保密性和数据完整性。该协议由两层组成： TLS 记录协议（TLS Record）和 TLS 握手协议（TLS Handshake）。较低的层为 TLS 记录协议，位于某个可靠的传输协议（例如 TCP）上面，与具体的应用无关，所以，一般把TLS协议归为传输层安全协议
