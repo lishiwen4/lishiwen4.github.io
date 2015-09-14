@@ -64,7 +64,7 @@ vlan的划分可以分为两种情况：
 
 交换机的端口是有限的， 当需要将较多的网络设备划分到同一个vlan中时， 使用一个交换机是不够的， 需要多台交换机的级联， 如下图所示
 
-![vlan与交换机的级联](images/network/vlan-exp.png)
+![vlan与交换机的级联](/images/network/vlan-exp.png)
 
 两台交换机上划分了两个vlan ：
 
@@ -85,7 +85,7 @@ vlan的划分可以分为两种情况：
 
 **比较常用的是trunk端口和access端口， 以下图为例**
 
-![trunk端口与交换机级联](images/network/vlan-exp1.png)
+![trunk端口与交换机级联](/images/network/vlan-exp1.png)
 
 两台交换机上共划分了2个vlan， 共使用两个端口进行级联
 
@@ -133,7 +133,7 @@ vlan tag信息添加在以太网帧的“源MAC”和“长度/类型”字段�
 
 交换机与路由的连接也有两种方式， 如下图所示
 
-![vlan之间的通信](images/network/vlan-route.png)
+![vlan之间的通信](/images/network/vlan-route.png)
 
 无论是那一种方式， 都需要路由器支持vlan
 
