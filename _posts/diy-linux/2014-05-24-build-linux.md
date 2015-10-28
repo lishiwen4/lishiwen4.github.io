@@ -3,7 +3,7 @@ layout: post
 title: "2-编译linux内核"
 description:
 category: diy-linux
-tags: [Data]
+tags: [linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

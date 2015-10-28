@@ -3,7 +3,7 @@ layout: post
 title: "EAP 认证"
 description:
 category: wifi
-tags: [Data]
+tags: [wifi]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

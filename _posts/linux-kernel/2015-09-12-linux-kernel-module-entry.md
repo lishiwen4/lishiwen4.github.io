@@ -3,7 +3,7 @@ layout: post
 title: "linux内核模块入/出口函数"
 description: 
 category: linux-kernel
-tags: [Data]
+tags: [linux, driver]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

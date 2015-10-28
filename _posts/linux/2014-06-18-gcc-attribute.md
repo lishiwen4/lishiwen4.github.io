@@ -3,7 +3,7 @@ layout: post
 title: "gcc attribute 扩展"
 description:
 category: linux
-tags: [Data]
+tags: [linux, build-link]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

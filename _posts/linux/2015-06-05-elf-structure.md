@@ -3,7 +3,7 @@ layout: post
 title: "ELF 文件结构"
 description:
 category: linux
-tags: [Data]
+tags: [linux, build-link]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

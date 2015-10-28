@@ -3,7 +3,7 @@ layout: post
 title: "svc 命令"
 description:
 category: android
-tags: [Data]
+tags: [android, wifi]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

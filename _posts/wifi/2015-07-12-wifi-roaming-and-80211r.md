@@ -3,7 +3,7 @@ layout: post
 title: "wifi漫游与802.11r"
 description:
 category: wifi
-tags: [Data]
+tags: [wifi]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

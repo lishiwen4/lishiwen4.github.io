@@ -3,7 +3,7 @@ layout: post
 title: "android persistent app"
 description:
 category: android
-tags: [Data]
+tags: [android, framework]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

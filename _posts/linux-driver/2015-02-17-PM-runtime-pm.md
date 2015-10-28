@@ -3,7 +3,7 @@ layout: post
 title: "linux-PM runtime PM"
 description:
 category: linux-driver
-tags: [Data]
+tags: [linux, pm, driver]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

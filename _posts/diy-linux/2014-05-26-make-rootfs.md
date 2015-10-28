@@ -3,7 +3,7 @@ layout: post
 title: "4-建立根文件系统"
 description:
 category: diy-linux
-tags: [Data]
+tags: [linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

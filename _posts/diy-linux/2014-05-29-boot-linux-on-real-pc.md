@@ -3,7 +3,7 @@ layout: post
 title: "7-在真机上引导linux"
 description:
 category: diy-linux
-tags: [Data]
+tags: [linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

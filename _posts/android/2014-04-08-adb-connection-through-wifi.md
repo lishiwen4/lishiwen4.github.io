@@ -3,7 +3,7 @@ layout: post
 title: "wifi网络上建立adb连接"
 description:
 category: android
-tags: [Data]
+tags: [android, wifi, debug]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

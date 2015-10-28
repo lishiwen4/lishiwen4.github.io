@@ -3,7 +3,7 @@ layout: post
 title: "android dhcp and dns"
 description:
 category: android
-tags: [Data]
+tags: [android, network, wifi]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

@@ -3,7 +3,7 @@ layout: post
 title: "SELinux 安全上下文"
 description:
 category: android
-tags: [Data]
+tags: [android, linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

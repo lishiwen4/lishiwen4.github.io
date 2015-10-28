@@ -3,7 +3,7 @@ layout: post
 title: "linux-PM wakeup count"
 description:
 category: linux-driver
-tags: [Data]
+tags: [linux, driver, pm]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

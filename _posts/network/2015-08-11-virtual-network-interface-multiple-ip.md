@@ -3,7 +3,7 @@ layout: post
 title: "linux虚拟网络接口 —— 多ip地址"
 description:
 category: network
-tags: [Data]
+tags: [network, linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

@@ -3,7 +3,7 @@ layout: post
 title: "VDSO和系统调用"
 description:
 category: linux
-tags: [Data]
+tags: [linux, build-link]
 imagefeature: cover10.jpg
 mathjax: 
 chart:
@@ -25,7 +25,7 @@ VDSO在进程中映射的地址可通过如下方式来查看:
 
 	$ cat /proc/xxx/maps | grep  vdso
 
-需要注意的是， 新的内核中提供了的进程地址随机化功能， 因此，linux-vdso.so.1每一次的映射地址都不相同(即使是对于同一个可执行程序), linux中的“/proc/sys/kernel/randomize_va_space"用于控制linux的进程地址随机化, 取值如下：
+需要注意的是， 新的内核中提供了的进程地址随机化功能， 因此，linux-vdso.so.1每一次的映射地址都不相同(即使是对于同一个可执行程序), linux中的"/proc/sys/kernel/randomize_va_space"用于控制linux的进程地址随机化, 取值如下：
 
 + 0 ： 表示关闭内存地址随机化 
 + 1 ： 表示将mmap的基址，stack和vdso地址随机化

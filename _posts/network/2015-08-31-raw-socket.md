@@ -3,7 +3,7 @@ layout: post
 title: "raw socket"
 description:
 category: network
-tags: [Data]
+tags: [network, linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

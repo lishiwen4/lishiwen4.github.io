@@ -3,7 +3,7 @@ layout: post
 title: "linux 中断子系统"
 description:
 category: linux-driver
-tags: [Data]
+tags: [linux, driver]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

@@ -3,7 +3,7 @@ layout: post
 title: "1-qemu简介"
 description:
 category: diy-linux
-tags: [Data]
+tags: [linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

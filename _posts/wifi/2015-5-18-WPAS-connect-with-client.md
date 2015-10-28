@@ -3,7 +3,7 @@ layout: post
 title: "WPAS与client的通信"
 description:
 category: wifi
-tags: [Data]
+tags: [wifi, linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

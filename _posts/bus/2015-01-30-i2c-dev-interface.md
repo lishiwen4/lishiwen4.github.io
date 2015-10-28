@@ -3,7 +3,7 @@ layout: post
 title: "i2c-dev接口"
 description:
 category: bus
-tags: [Data]
+tags: [bus, linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

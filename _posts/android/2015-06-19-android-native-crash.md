@@ -3,7 +3,7 @@ layout: post
 title: "android native crash"
 description:
 category: android
-tags: [Data]
+tags: [android, debug]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

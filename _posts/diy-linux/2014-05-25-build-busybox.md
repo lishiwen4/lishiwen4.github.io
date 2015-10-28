@@ -3,7 +3,7 @@ layout: post
 title: "3-编译buxybox"
 description:
 category: diy-linux
-tags: [Data]
+tags: [linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

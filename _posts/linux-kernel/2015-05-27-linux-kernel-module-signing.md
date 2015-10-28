@@ -3,7 +3,7 @@ layout: post
 title: "linux内核模块签名"
 description: 
 category: linux-kernel
-tags: [Data]
+tags: [linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

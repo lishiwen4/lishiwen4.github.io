@@ -3,7 +3,7 @@ layout: post
 title: "android image 文件"
 description:
 category: android
-tags: [Data]
+tags: [android]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

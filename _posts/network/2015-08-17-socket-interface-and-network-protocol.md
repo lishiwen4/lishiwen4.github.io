@@ -3,7 +3,7 @@ layout: post
 title: "socket接口的网络协议无关性"
 description:
 category: network
-tags: [Data]
+tags: [network, linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

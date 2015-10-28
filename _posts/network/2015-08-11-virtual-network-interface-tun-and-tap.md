@@ -3,7 +3,7 @@ layout: post
 title: "linux虚拟网络接口 —— tun/tap"
 description:
 category: network
-tags: [Data]
+tags: [network, linux]
 imagefeature: cover10.jpg
 mathjax: 
 chart:

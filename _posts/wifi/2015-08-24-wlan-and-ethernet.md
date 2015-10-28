@@ -3,7 +3,7 @@ layout: post
 title: "wifi 与 以太网"
 description:
 category: wifi
-tags: [Data]
+tags: [wifi, network]
 imagefeature: cover10.jpg
 mathjax: 
 chart:
