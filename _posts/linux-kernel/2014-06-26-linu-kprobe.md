@@ -338,11 +338,12 @@ do_int3()函数一开始就会去调用notify_die()函数，该函数的主要�
   
 接着，开始检查此次 int3 异常是否是由前一次 Kprobes 处理流程引发的，如果是由前一次Kprobes处理流程引发，则有两种可能性。第一是该次Kprobes处理由于前一次回调函数执行了被探测代码造成的，第二种可能性是由于 jprobe造成的，这部分将在 jprobe的实现一节中详细讨论。如果int3异常不是由前一次Kprobes处理流程引发的，根据先前记录下来的探测点地址到哈希表中找到已注册的struct kprobe结构。如果该结构中包含了pre_handler函数指针，则执行该预定的函数。  
   
-执行完用户定义的 pre_handler函数时，已经完成了一部分的调试工作。接下来，就开始准备single-step步骤，该步骤用 prepare_singlestep()函数完成。这个函数与体系结构相关，下面是prepare_singlestep()函数在i386体系CPU 上的主要实现代码：  
-程序1 　prepare_singlestep()函数部分代码  
-01 regs->eflags |= TF_MASK;  
-02 regs->eflags &= ~IF_MASK;  
-03 regs->eip = (unsigned long)p->ainsn.insn;  
+执行完用户定义的 pre_handler函数时，已经完成了一部分的调试工作。接下来，就开始准备single-step步骤，该步骤用 prepare_singlestep()函数完成。这个函数与体系结构相关，下面是prepare_singlestep()函数在i386体系CPU上部分代码  
+	
+	regs->eflags |= TF_MASK;  
+	regs->eflags &= ~IF_MASK;  
+	regs->eip = (unsigned long)p->ainsn.insn;  
+
 上面的代码中设置了EFLAGS中的TF位并清空IF位，同时把异常返回的指令寄存器地址改为保存起来的原探测指令处，当异常返回时这些设置就会生效。 single-step技术已经在上文中讨论过，这里不再赘述。执行完被探测的指令后，由于 CPU的标志寄存器被置位，此时又会引发一次CPU异常，该异常在Linux内核中被称为DEBUG异常。  
   
 ##14. Kprobe DEBUG异常处理  
