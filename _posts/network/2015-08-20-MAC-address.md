@@ -127,4 +127,4 @@ bit 46用于标识该MAC地址是全球唯一还是本地唯一
 + 0 ： 全球唯一的MAC地址
 + 1 ： 本地唯一的mac地址
 
-**通常在支持wifi 和 wifi p2p android手机上， 会将wlan接口的mac地址， 反转其 bit46 后， 作为p2p接口的mac地址**， wlan接口通常会使用全球唯一mac地址
+**通常在支持wifi 和 wifi p2p android手机上， wlan接口使用全球唯一mac地址, 然后将wlan接口的mac地址， 反转其 bit46 后(得到本地唯一mac地址)， 作为p2p接口的mac地址**，这是因为wifi接口的mac地址会出现在internet上， 而p2p接口的mac地址只会出现在本地的p2p局域网上面 
