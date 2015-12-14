@@ -115,8 +115,8 @@ demoCA/seria 中的数值在生成证书时会依次递增
 	State or Province Name (full name) [Some-State]:JiangSu
 	Locality Name (eg, city) []: SuZhou
 	Organization Name (eg, company) [Internet Widgits Pty Ltd]: test
-	Organizational Unit Name (eg, section) []: test.wifi
-	Common Name (e.g. server FQDN or YOUR name) []:sven 
+	Organizational Unit Name (eg, section) []: wifi
+	Common Name (e.g. server FQDN or YOUR name) []:ca 
 	Email Address []: sven@xxx.com 
 
 最后，　生成的　ca.crt　为根证书，　ca.key　为密钥，　**需要注意的是，　rsa为非对称加密，　生成的rsa密钥ca.key中同时包含私钥和公钥**
@@ -134,6 +134,10 @@ demoCA/seria 中的数值在生成证书时会依次递增
 + Email Address             : 证书持有者的通信邮箱 	可省略不填
 
 #####4.1.1 上述步骤的改进
+
+上述步骤需要进入交互模式，　等待输入密码和DN信息, 可以使用　“-passout” 和　“-subj”　参数在命令行中指定这些参数
+
+    openssl req -new -x509 -passout pass:123456 -subj /CN=CN/ST=JiangSu/L=SuZhou/O=/test/OU=wifi/CN=ca/emailaddress=sven@xxx.com -keyout ca.key -out ca.crt
 
 上述步骤生成的ca.key是1024bits的RSA公私钥对，　如果希望成密钥长度不为1024bits的RSA公私钥对或者其它类型加密(例如　des, des3, aes128, aes192, aes256)的公私钥对，　则要使用"-newkey"参数来代替”-new“参数，　例如:
 
@@ -176,10 +180,10 @@ demoCA/seria 中的数值在生成证书时会依次递增
     countryName = CN
     stateOrProvinceName = JiangSu
     localityName = SuZhou
-    organizationName = radius
-    organizationalUnitName = radius
+    organizationName =test
+    organizationalUnitName = wifi
     emailAddress = sven@xxx.com
-    commonName = "CA"
+    commonName = ca
     
     #just needed by self signed CA
     [ca_extensions]
@@ -191,7 +195,8 @@ demoCA/seria 中的数值在生成证书时会依次递增
     
     $ openssl req -new -x509 -keyout ca.key -out ca.crt -config ./ca.cnf
     
-也可以在ca.cnf中，　可以注释”x509_extensions = ca_extensions“，　然后在命令行中使用"-extensions  ca_extensions" 来指定extension块
+注意在生成CA时， config文件中需要有　“ca_extensions” 块的内容，　这是因为，　CA证书必须带有扩展属性(密钥用途，只能用于数字签名), 只有v3证书才有扩展属性，使用默认的config　file "/etc／ssl/openssl.conf"　时，　其内部声明了x509 v3扩展　"v3_ca"，　因此在使用自定义的config生成CA时，　需要自己添加　v3　扩展的内容, 否则生成的是　v1　证书，不能
+作为CA去签发下级证书
 
 ####4.2 生成密钥    
   
@@ -239,6 +244,16 @@ demoCA/seria 中的数值在生成证书时会依次递增
 3. 进行CA签名获取证书时，如果信息完全和已有证书信息相同会报错，即不能生成相同的证书(一般保持commonName不同)，报错信息为：failed to update database  TXT_DB error number 2
 4. 如出现：unable to access the ./demoCA/newcerts directory 则需要自己建立 demoCA目录或者 修改 /usr/lib/ssl/openssl.cnf 中dir的值  
   
+  
+**生成server和client端证书的步骤可以简化为:**
+
+    $ openssl req -new -passout pass:123456 -subj /CN=CN/ST=JiangSu/L=SuZhou/O=/test/OU=test.wifi/CN=server/emailaddress=sven@xxx.com -keyout server.key -out server.csr
+    
+    $ openssl req -new -passout pass:123456 -subj /CN=CN/ST=JiangSu/L=SuZhou/O=/test/OU=test.wifi/CN=client/emailaddress=sven@xxx.com -keyout client.key -out client.csr
+    
+    $ openssl ca -in server.csr -out server.crt -cert ca.crt -keyfile ca.key -passin pass:123456
+    $ openssl ca -in client.csr -out client.crt -cert ca.crt -keyfile ca.key -passin pass:123456
+    
 ###5. 合并x509证书文件和密钥钥  
   
 有时需要分发证书和密钥, 可以使用 `cat` 命令将证书和密钥合并到一个　".pem"　文件中，例如
