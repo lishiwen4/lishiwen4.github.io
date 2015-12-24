@@ -24,7 +24,7 @@ comments: false
   
 格式化U盘， 建立ext4文件系统  
   
-	sudo fdisk /dev/sda
+	sudo fdisk /dev/sdb
     
 删除原有的分区， 并建立一个主分区，那么现在就有“/dev/sdb”和“/dev/sdb1”（当然你的情况可能有所不同,一定要确认好， 否则可能破坏你的本地的引导） 然后格式化为ext4文件系统  
   
@@ -43,6 +43,8 @@ comments: false
 “/dev/sdb”则指定写u盘的MBR  
   
 grub的安装有多种方式，比如还可以进入grub的交互模式，使用install命令或者setup命令， 但是使用 grub-install 是最为简单的方式
+
+**当然， 还可以在u盘上建立更多的分区， 在进入系统后挂载使用**
   
 ####2.2 编辑grub配置文件  
   
@@ -51,9 +53,11 @@ grub的安装有多种方式，比如还可以进入grub的交互模式，使用
 	default=0
 	timeout=10
 	menuentry usb linux{
-		linux /boot/bzImage ro ramdisk_size=65536 root=/dev/ram0 init=/bin/sh
+		linux /boot/bzImage ro ramdisk_size=65536 root=/dev/ram0
 		initrd /boot/initrd.img
 	}
+    
+这种情况下， 使用 busybox 作为 init 进程， 也可以将第4行替换为 “linux /boot/bzImage ro ramdisk_size=65536 root=/dev/ram0 init=xxx” 来指定init进程
     
 是的， 我们需要把build 出来的kernel 和 制作的initrd 拷贝到U盘的 /boot 目录， 然后插上upan到pc， 选择从u盘启动
   
@@ -73,3 +77,39 @@ grub的安装有多种方式，比如还可以进入grub的交互模式，使用
 	APPEND root=/dev/ram0 ramdisk_size=30720 rw initrd=initrd.img init=/bin/sh
     
 插上U盘， 开机并且选择从U盘启动。
+
+###4. 运行c程序
+
+以一个简单的c程序为例
+
+    // file test.c
+    #include <stdio.h>
+
+    int main()
+    {
+	   puts("test app");
+	   return 0;
+    }
+    
+####4.1 静态链接
+
+执行
+    
+    gcc --static -o test test.c
+    
+即可静态链接得到 test 可执行文件， 将其拷贝到根文件系统的 /home 目录下， 进入系统后， 即可栉jie风沐雨执行该程序
+
+####4.2 动态链接
+
+执行
+    
+    gcc -o test test.c
+    
+动态链接则需要系统中存在所需的动态库， 最简单的方法是将编译测试程序的主机上的 /lib 和 /lib64 目录下所有的so都拷贝到 根文件系统中去, 但是这样会引入很多不需要的库， 可以使用ldd命令来查找所需的库， 然后只拷贝这些库即可
+
+    $ ldd test
+        linux-vdso.so.1 =>  (0x00007ffced275000)
+        libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f5dfd0e9000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007f5dfd4d1000)
+        
+linux-vdso.so.1 包含在kernel 中， 因此只需要拷贝 /lib/x86_64-linux-gnu/libc.so.6 和 /lib64/ld-linux-x86-64.so.2 到根文件系统的 /lib64 目录即可
