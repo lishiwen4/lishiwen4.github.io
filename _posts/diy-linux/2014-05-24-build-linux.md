@@ -69,6 +69,14 @@ comments: false
 	make defconfig
 	make menuconfig
 
+这一步可能会出现如下的错误：
+
+    scripts/kconfig/lxdialog/dialog.h:31:20: fatal error: curses.h: No such file or directory
+
+这是因为缺少 libncurses， 执行如下命令来安装
+
+    $ sudo apt-get install libncurses
+
 ###4. 打开Ramdisk选项  
   
 使用defconfig的话，基本上无需做改动，  但是你还是需要确保以下几条选项被打开以支持ramdisk  
