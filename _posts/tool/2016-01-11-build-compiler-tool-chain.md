@@ -127,7 +127,7 @@ comments: false
     
 ###7. 参考
 
-[参考1](http://blog.chinaunix.net/uid-13075095-id-2907611.html)
-[参考2](https://www.ibm.com/developerworks/cn/linux/l-embcmpl/)
-[参考3](http://blog.csdn.net/turui/article/details/6596093)
-[参考4](http://www.cnblogs.com/leaven/archive/2010/11/17/1879679.html)
++ [http://blog.chinaunix.net/uid-13075095-id-2907611.html](http://blog.chinaunix.net/uid-13075095-id-2907611.html)
++ [https://www.ibm.com/developerworks/cn/linux/l-embcmpl/](https://www.ibm.com/developerworks/cn/linux/l-embcmpl/)
++ [http://blog.csdn.net/turui/article/details/6596093](http://blog.csdn.net/turui/article/details/6596093)
++ [http://www.cnblogs.com/leaven/archive/2010/11/17/1879679.html](http://www.cnblogs.com/leaven/archive/2010/11/17/1879679.html)
