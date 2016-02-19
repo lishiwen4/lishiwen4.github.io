@@ -4,7 +4,6 @@ title: "ELF 文件结构"
 description:
 category: linux
 tags: [linux, build-link]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

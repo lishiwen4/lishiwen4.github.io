@@ -4,7 +4,6 @@ title: "android dhcp and dns"
 description:
 category: android
 tags: [android, network, wifi]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

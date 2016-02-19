@@ -4,7 +4,6 @@ title: "使用proc文件系统导出信息"
 description:
 category: linux-driver
 tags: [linux, driver]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

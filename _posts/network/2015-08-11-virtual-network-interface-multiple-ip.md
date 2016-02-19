@@ -4,7 +4,6 @@ title: "linux虚拟网络接口 —— 多ip地址"
 description:
 category: network
 tags: [network, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

@@ -4,7 +4,6 @@ title: "5-在qemu中引导linux"
 description:
 category: diy-linux
 tags: [linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

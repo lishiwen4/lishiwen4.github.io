@@ -4,7 +4,6 @@ title: "generic netlink"
 description:
 category: network
 tags: [network, linux, wifi]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

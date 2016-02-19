@@ -4,7 +4,6 @@ title: "android.mk"
 description:
 category: android
 tags: [android]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

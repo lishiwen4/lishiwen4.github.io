@@ -4,7 +4,6 @@ title: "VDSO和系统调用"
 description:
 category: linux
 tags: [linux, build-link]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

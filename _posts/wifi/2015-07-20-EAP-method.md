@@ -4,7 +4,6 @@ title: "EAP 认证"
 description:
 category: wifi
 tags: [wifi]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

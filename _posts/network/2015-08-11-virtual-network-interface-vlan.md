@@ -4,7 +4,6 @@ title: "linux虚拟网络接口 —— 802.1q vlan"
 description:
 category: network
 tags: [network, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

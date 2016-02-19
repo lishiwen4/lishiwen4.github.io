@@ -4,7 +4,6 @@ title: "i2c-dev接口"
 description:
 category: bus
 tags: [bus, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

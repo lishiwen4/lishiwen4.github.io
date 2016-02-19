@@ -4,7 +4,6 @@ title: "linux 线程"
 description:
 category: linux
 tags: [linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

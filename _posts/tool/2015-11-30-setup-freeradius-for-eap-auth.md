@@ -4,7 +4,6 @@ title: "使用freeradius搭建EAP认证环境"
 description:
 category: tool
 tags: [tool, network, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

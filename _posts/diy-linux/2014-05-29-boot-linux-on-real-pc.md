@@ -4,7 +4,6 @@ title: "7-在真机上引导linux"
 description:
 category: diy-linux
 tags: [linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

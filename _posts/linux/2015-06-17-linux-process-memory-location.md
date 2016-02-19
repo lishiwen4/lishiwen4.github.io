@@ -4,7 +4,6 @@ title: "linux进程的内存布局"
 description:
 category: linux
 tags: [linux, build-link]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

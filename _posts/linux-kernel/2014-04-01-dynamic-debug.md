@@ -4,7 +4,6 @@ title: "linux dynamic debug"
 description: 
 category: linux-kernel
 tags: [linux, debug, driver]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

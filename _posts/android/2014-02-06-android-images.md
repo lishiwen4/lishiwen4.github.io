@@ -4,7 +4,6 @@ title: "android image 文件"
 description:
 category: android
 tags: [android]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

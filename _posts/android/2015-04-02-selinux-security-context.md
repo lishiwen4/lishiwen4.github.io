@@ -4,7 +4,6 @@ title: "SELinux 安全上下文"
 description:
 category: android
 tags: [android, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

@@ -4,7 +4,6 @@ title: "NFC 概述"
 description:
 category: nfc
 tags: [nfc]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

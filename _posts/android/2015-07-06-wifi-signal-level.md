@@ -4,7 +4,6 @@ title: "android wifi信号强度显示"
 description:
 category: android
 tags: [android, framework, wifi]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

@@ -4,7 +4,6 @@ title: "3-编译buxybox"
 description:
 category: diy-linux
 tags: [linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

@@ -4,7 +4,6 @@ title: "android上wifi扫描间隔"
 description:
 category: wifi
 tags: [wifi, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

@@ -4,7 +4,6 @@ title: "adb manual"
 description:
 category: android
 tags: [android, wifi, debug]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

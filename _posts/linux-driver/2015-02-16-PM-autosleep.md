@@ -4,7 +4,6 @@ title: "linux-PM autosleep"
 description:
 category: linux-driver
 tags: [linux, pm, driver]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

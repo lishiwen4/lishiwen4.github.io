@@ -4,7 +4,6 @@ title: "linux上配置git server和repo"
 description:
 category: tool
 tags: [tool,linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

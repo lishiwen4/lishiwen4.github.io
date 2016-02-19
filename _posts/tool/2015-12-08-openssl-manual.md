@@ -4,7 +4,6 @@ title: "openssl 证书/签名/加密"
 description:
 category: tool
 tags: [tool, network, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

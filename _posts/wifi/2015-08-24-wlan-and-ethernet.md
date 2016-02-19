@@ -4,7 +4,6 @@ title: "wifi 与 以太网"
 description:
 category: wifi
 tags: [wifi, network]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

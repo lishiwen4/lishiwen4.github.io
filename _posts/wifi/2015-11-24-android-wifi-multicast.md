@@ -4,7 +4,6 @@ title: "android wifi 组播"
 description:
 category: wifi
 tags: [wifi, linux, android]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

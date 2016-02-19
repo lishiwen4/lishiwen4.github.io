@@ -4,7 +4,6 @@ title: "linux console"
 description:
 category: linux
 tags: [linux, debug]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

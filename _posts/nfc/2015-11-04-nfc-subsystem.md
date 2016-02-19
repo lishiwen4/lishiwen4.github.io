@@ -4,7 +4,6 @@ title: "linux NFC subsystm"
 description:
 category: nfc
 tags: [nfc]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

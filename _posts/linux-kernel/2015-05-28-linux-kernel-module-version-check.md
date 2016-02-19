@@ -4,7 +4,6 @@ title: "linux内核模块版本检查"
 description: 
 category: linux-kernel
 tags: [linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

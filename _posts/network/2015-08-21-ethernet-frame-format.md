@@ -4,7 +4,6 @@ title: "以太网帧格式"
 description:
 category: network
 tags: [network, linux, wifi]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

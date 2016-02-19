@@ -4,7 +4,6 @@ title: "android persistent app"
 description:
 category: android
 tags: [android, framework]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

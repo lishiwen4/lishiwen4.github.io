@@ -4,7 +4,6 @@ title: "gdb 远程调试在android上的应用"
 description:
 category: android
 tags: [android, debug]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

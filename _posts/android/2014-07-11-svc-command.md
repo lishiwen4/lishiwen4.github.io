@@ -4,7 +4,6 @@ title: "svc 命令"
 description:
 category: android
 tags: [android, wifi]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

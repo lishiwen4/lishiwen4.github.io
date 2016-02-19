@@ -4,7 +4,6 @@ title: "IEEE 802.11 无线网络接口的类型"
 description:
 category: wifi
 tags: [wifi, network, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

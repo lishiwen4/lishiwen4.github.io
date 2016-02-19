@@ -4,7 +4,6 @@ title: "raw socket"
 description:
 category: network
 tags: [network, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

@@ -4,7 +4,6 @@ title: "构建交叉编译工具链"
 description:
 category: tool
 tags: [tool, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

@@ -4,7 +4,6 @@ title: "linux 虚拟块设备"
 description:
 category: linux
 tags: [linux, build-link]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

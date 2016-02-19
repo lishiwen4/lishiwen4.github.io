@@ -4,7 +4,6 @@ title: "android init 启动流程"
 description:
 category: android
 tags: [android, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

@@ -4,7 +4,6 @@ title: "linux内核模块"
 description: 
 category: linux-kernel
 tags: [linux, driver]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

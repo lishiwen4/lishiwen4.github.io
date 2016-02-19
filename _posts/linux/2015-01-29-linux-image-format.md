@@ -4,7 +4,6 @@ title: "linux 内核镜像文件种类"
 description:
 category: linux
 tags: [linux, build-link]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

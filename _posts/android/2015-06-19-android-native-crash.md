@@ -4,7 +4,6 @@ title: "android native crash"
 description:
 category: android
 tags: [android, debug]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

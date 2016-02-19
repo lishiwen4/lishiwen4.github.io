@@ -4,7 +4,6 @@ title: "WPAS与client的通信"
 description:
 category: wifi
 tags: [wifi, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

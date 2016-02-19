@@ -4,7 +4,6 @@ title: "linux 中断子系统"
 description:
 category: linux-driver
 tags: [linux, driver]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

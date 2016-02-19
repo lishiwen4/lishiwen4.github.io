@@ -4,7 +4,6 @@ title: "linux-PM wakeup count"
 description:
 category: linux-driver
 tags: [linux, driver, pm]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

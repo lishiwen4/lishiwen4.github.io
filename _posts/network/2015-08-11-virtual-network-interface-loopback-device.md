@@ -4,7 +4,6 @@ title: "linux虚拟网络接口 —— 环回接口 lo"
 description:
 category: network
 tags: [network, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

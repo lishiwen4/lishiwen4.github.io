@@ -4,7 +4,6 @@ title: "NFC RW 模式"
 description:
 category: nfc
 tags: [nfc]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

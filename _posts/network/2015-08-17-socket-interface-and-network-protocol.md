@@ -4,7 +4,6 @@ title: "socket接口的网络协议无关性"
 description:
 category: network
 tags: [network, linux]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false

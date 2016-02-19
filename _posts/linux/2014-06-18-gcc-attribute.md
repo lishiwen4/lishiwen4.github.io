@@ -4,7 +4,6 @@ title: "gcc attribute 扩展"
 description:
 category: linux
 tags: [linux, build-link]
-imagefeature: cover10.jpg
 mathjax: 
 chart:
 comments: false
