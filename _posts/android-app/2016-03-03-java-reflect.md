@@ -2,7 +2,7 @@
 layout: post
 title: "java 反射机制"
 description:
-category: android-app
+category: android
 tags: [android, app]
 mathjax: 
 chart:
