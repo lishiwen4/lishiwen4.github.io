@@ -2,7 +2,7 @@
 layout: post
 title: "android support library"
 description:
-category: android-app
+category: android
 tags: [android, app]
 mathjax: 
 chart:
