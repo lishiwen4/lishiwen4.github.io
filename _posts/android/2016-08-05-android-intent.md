@@ -612,7 +612,6 @@ IntentFilter　在　AndroidManifest.xml　中定义, 若没有对应的　Packa
 
 上述的示例列出的是用于启动 Activity　的Intent, 对于 braodcast receiver, service, provider 这些组件中的　IntentFilter，　｀pm dump <package name>｀　同样也会列出来
 
-
 ###13. PackageManagerService.resolveIntent()
 
 当Intent用于启动　Activity　时, PackageManagerService.resolveIntent() 用于选择合适的 Activity, 其中主要的工作如下:
@@ -633,7 +632,13 @@ IntentFilter　在　AndroidManifest.xml　中定义, 若没有对应的　Packa
 
 PackageManagerService.resolveService()　中会调用　queryIntentServices()，　获取到所有匹配到的　Service　的　ResolveInfo (按照 IntentFilter priority 降序排列), 然后选择排在最前面的 ResoleveInfo 对应的　service
 
-###15. 附1 - 使用Intent启动常见的系统组件
+###15. 查看系统中的 Intent filter
+
+若是需要检查系统中系统中有那些 package　会处理特定的　Intent，　可以使用如下的命令列出系统中所有注册的 filter　然后进行搜索
+
+    $ adb shell dumpsys package -f resolvers
+
+###16. 附1 - 使用Intent启动常见的系统组件
     
 **打开网页**
 
@@ -688,7 +693,7 @@ PackageManagerService.resolveService()　中会调用　queryIntentServices()，
     intent.setDataAndType(data, "application/vnd.android.package-archive");  //Type的字符串为固定内容
     startActivity(intent);
  
-###16. android　扩展名和 MIME　对应关系
+###17. android　扩展名和 MIME　对应关系
 
         add("application/andrew-inset", "ez");
         add("application/dsptype", "tsp");
