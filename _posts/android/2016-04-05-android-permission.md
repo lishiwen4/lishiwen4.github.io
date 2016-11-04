@@ -446,8 +446,9 @@ DefaultPermissionGrantPolicy 用于为系统组件或者　system handler　授�
             
 DefaultPermissionPolicy.grantDefaultPermissions()　会为　需要预授权的package　的需要预授权的 permission　进行授权
             
-+ DefaultPermissionGrantPolicy.grantPermissionsToSysComponentsAndPrivApps()　: 用于为系统组件或者使用　platform key sign且 persistent 的　priv　app　请求的所有的runtime　permission　授权
-   + UID　小于　FIRST_APPLICATION_UID　的　package　会被视为　系统组件
++ DefaultPermissionGrantPolicy.grantPermissionsToSysComponentsAndPrivApps()　: 用于为系统组件或者使用　platform key sign 且 persistent 的　priv　app　请求的所有的runtime　permission　授权
+   + UID　小于　FIRST_APPLICATION_UID　的　package　会被视为　系统组件, 会被自动授予所有请求的runtime permission
+   + 若 apk设置了 PRIVATE_FLAG_PRIVILEGED 和 FLAG_PERSISTENT 标志且使用 platform key sign， 则也会被自动授予所有请求的runtime permission
    + 如果某个　permission　的 flag　包含　PackageManager.FLAG_PERMISSION_POLICY_FIXED　或者　PackageManager.FLAG_PERMISSION_SYSTEM_FIXED，　则不处理该　permission
    + 通过该接口设置权限状态成功的 permission　会被设置　PackageManager.FLAG_PERMISSION_GRANTED_BY_DEFAULT　和　PackageManager.FLAG_PERMISSION_SYSTEM_FIXED　flag
 + DefaultPermissionPolicy.grantDefaultSystemHandlerPermissions()　为需要预授权的system　handler　的runtime permission　进行授权
