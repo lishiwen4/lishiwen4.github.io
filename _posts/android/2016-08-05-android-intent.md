@@ -501,10 +501,12 @@ Intentfilter中可以设置多个Category，Intent中也可以含有多个Catego
 
 当一个　Intent 依次经过　“action”　> 　“data”　> "category" 检查后，仍匹配到多个　IntentFilter　并且需要检查　priority　时，　规则如下:
 
-+ 若其中所有 IntentFilter　的　priority　>= 0, 则 这些　IntentFilter　的　priority 起作用, 且数值越高，　优先级越高
-+ 只要其中某个 IntentFilter　的 priority　< 0 , 则这些　IntentFilter　的　priority　不起作用
++ 若其中所有 IntentFilter　的　priority　>= 0, 则 这些　IntentFilter　的　priority 不起作用, 且数值越高，　优先级越高
++ 只要其中某个 IntentFilter　的 priority　< 0 , 则这些　IntentFilter　的　priority　起作用, 且数值越高，　优先级越高
 
 线程一样，优先级的设置只是系统考虑的一个方面，但不是绝对，因此系统仍然会把所有为正的Intent Filter过滤出来让用户选择，而当一个设置为负的时候，系统可能认为此activity的Intent Filter有极其苛刻的过滤条件，此activity也只能适用于少数场合，因此系统按照我们设置的优先级来发挥作用
+
+对receiver的Intent Filter的设置时，我们即使设置了优先级，我们也只能对有序广播有效，对无序广播是无效的
 
 ####12.5 查看 packages　定义的　IntentFilter
 
