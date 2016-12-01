@@ -408,3 +408,111 @@ jarsigner
         }
         ......
     }
+    
+###17. KeySetManagerService
+
+android 系统中的 KeySetManagerService　维护了系统中所有　package　的签名的　key 的信息
+
+一个 package 签名所用的所有的key的信息（因为签名信息只包含公钥, 所以基本都是public key　信息），　称为 KeySet, 因为　一个　package　允许使用１到多组　key　来进行签名，　所以，　２个package，　只有在用于签名的所有的key完全一致时，　它们的 KeySet　才相同
+
+KeySetManagerService.KeySetHandle 这一内部类存储了一组　KeySet　的信息，　其中的内容非常简单
+
+    class KeySetHandle extends Binder{
+        private final long mId;     //KeySet　的索引
+        private int mRefCount;      //KeySet　的引用计数
+        ......
+    }
+
+KeySetManagerService的如下成员保存了　KeySetHandle　的索引到　对应的　KeySetHandle　对象的映射
+
+    private final LongSparseArray<KeySetHandle> mKeySets
+
+package　的签名信息中只有公钥的信息，　KeySetManagerService.PublicKeyHandle　这一内部类保存了一个package签名信息中的公钥的信息, 其中保存的信息很简单
+
+    class PublicKeyHandle {
+        private final PublicKey mKey;   //公钥
+        private final long mId;         //该公钥的索引
+        private int mRefCount;          //该公钥的引用计数，如果多个 package　使用了同一组key进行签名，则它们都会保存
+                                        //这一公钥的信息, 在系统的内部则体现为都引用了这一　PublicKeyHandle　对象
+    }
+
+KeySetManagerService的如下成员保存了 PublicKeyHandle 的索引到对应的　PublicKeyHandle　对象的映射
+
+    private final LongSparseArray<PublicKeyHandle> mPublicKeys;
+    
+前面有提到过，　一个　package　可以使用多组 key 来进行签名，　因此一组 KeySet　会对应多个　public key，　即一个 KeySetHandle 对象会对应到多个　PublicKeyHandle　对象
+
+KeySetManagerService的如下成员保存了　KeySetHandle　对象的索引到该　KeySetHandle　对象对应的所有的　PublicKeyHandle　对象的索引的映射
+
+    protected final LongSparseArray<ArraySet<Long>> mKeySetMapping;
+    
+/data/system/packages.xml　文件末尾保存了　系统中的app签名的　KeySet　和 public key 的信息,  KeySetManagerService.writeKeySetManagerServiceLPr() 和 KeySetManagerService.readKeySetsLPw()　分别负责写入和读出这些信息
+
+        <keyset-settings version="1">
+        <keys>
+            <public-key identifier="1" value="MIIBIDANBgkqhkiG9w0BAQEFAAOCAQ0AMIIBCAKCAQEAnHgFkqwNXTgc3qpl7MimAG42SAxtcgexIBG+UIY6q+K1XQCa33FG1vIgIoDHzU172yYkO4qAbCazSxN1I6SSaCJJBNwBST58Cs8aBch09psDe2AwnZB00kKA4WutKoc0NhlR6vcqSC0JsgSxh14SrJjBqnc9aAC56v3lbVi+2OjaFvmjYAmcN6g0pt/tt7a0SgSeB6Jp/M8sVJbyzzbWTfkKO42PNKO6q0z1M3GrJ3GbO6WHVK0MU/wU4dtF1R4jT7vpPJuk7fnOVCYTUOxTVge/aaL/SqB9tffqIA0JpsG0niFAL4ntEZCJOqtakYDxUugvhaRXU89fwZBxxe7IJwIBAw==" />
+            <public-key identifier="2" value="MIIBIDANBgkqhkiG9w0BAQEFAAOCAQ0AMIIBCAKCAQEAsTj9ZN2q3mK1O6GabvqP+gRJWCE7oenE5EEEi1mml5gZzaepOdm6tdm0rYYlvqCNzDEtdtolaNGjxujB1xYRZ3HSQ+Z2B4+8UN1Oze8bmDVaH5dB/bqJon0NRbdRjTFX0WubejNRHvzxMUQfwaJ+9TVtIzBZOM4mzbW8nn45Z6lH4jhB2buaf5gBfkH8npKoaqL0h202XN+sB1qatJ01IEEsx0jleBIb02NO9HQkuE7B93Uk035ao+sEj53BYr6GQohoqYCq9m3ydPeCDSuyvnC5k/9Lq+pUegclBzzbhqQ9CTXPQ7R5J0dgNp1YPgbbhvFnXQMfnXyNUHzSxHGWiQIBAw==" />
+            <public-key identifier="3" value="MIIBIDANBgkqhkiG9w0BAQEFAAOCAQ0AMIIBCAKCAQEAwYS9moVH3lW0blxul5bMd3ObbmqkEJXl9jjVtS+hcHqNpTdesxxqIU+1OcEtumbuXlXlZWnwmrVbTfM4Uhy2fVCAP2mZqyx4mTKrvVA5mwoVy1CycmJKR6p/XbBfgZBDJ8BVMWhtxf4/B8a3HVjbXcQ2HuRGi4IY6oawyXj8XN4YYUH8JfyQkWPz6JoD+uCYLd3BoEOU3ExFBSL07a5fvnjhn5JqMBlml/naBjoHfMbKR70b4hjZid0Zh6LV8Mc7fby+nDOoK0ov/02atcGJScPK+bw/RN2eFSGKng55Tb0GB5PkyeTMTQfLktSonidrviRnfFBO8Ozt8FCJ6u370wIBAw==" />
+            ......
+            <public-key identifier="28" value="MIIBIDANBgkqhkiG9w0BAQEFAAOCAQ0AMIIBCAKCAQEAyMLb/QlKLfRcP/GjLtIYBexy/FjQF5cb0Pa1LCYtcIGdGRln4Vjf06LH8bPg6AzlRdedKEgiAhHrhvD9gxLTe0IMETdQzJRhiuhy9IhkY73EYnyqDASDyGST41FVcRcDOL/cxM1q3dHAovNfXPJO0+QEOj5Y4rBeZkzN4SvLZ3Nf1t8SScNp5iVCvApHKeU5F/XDj/pS0Xtzycc3mN2xjtSBWQh1VH5mv8XaykwlpuuWDtlpI3CdowK6ZGy0lrMl6Gxciy56M3eyu+THzzMlQpEWP2iRUqwIhVDIPFCPS/Wt8K7VotygWD+asK0XZQ237qSyP9tFiFVH0P6rchg4iQIBAw==" />
+
+            ......
+            
+        </keys>
+        <keysets>
+            <keyset identifier="1">
+                <key-id identifier="1" />
+            </keyset>
+            <keyset identifier="2">
+                <key-id identifier="2" />
+            </keyset>
+            <keyset identifier="3">
+                <key-id identifier="3" />
+            </keyset>
+            ......
+            <keyset identifier="28">        //使用２组key签名,因此会引用２个public　key
+                <key-id identifier="1" />   
+                <key-id identifier="28" />
+            </keyset>
+
+            ......
+        
+        </keysets>
+        <lastIssuedKeyId value="28" />
+        <lastIssuedKeySetId value="28" />
+    </keyset-settings>
+
+同样的，　/data/system/packages.xml 中也保存了每一个　package　所对应的　KeySet，　例如
+
+    <package name="com.asus.system.api" codePath="/system/app/AsusBoost" nativeLibraryPath="/system/app/AsusBoost/lib" ......>
+        <sigs count="1">
+            <cert index="2" /> 
+        </sigs>
+        <proper-signing-keyset identifier="1" />    //KeySet 的索引
+    </package>
+
+KeySetManagerService　提供了一个接口 dumpLPr() ，　该接口可以 dump 出系统中 package　的　KeySet　信息, 该接口不能直接通过 dumpsys　命令来调用，　必须通过　PackageManagerService　的　dump()　接口中，　传入　"k" 或者　"keysets" 参数来调用, 例如:
+
+    $ dumpsys package k
+    ......
+    
+    [android]
+      Signing KeySets: 1
+    ......
+      
+    [com.android.phone]
+      Signing KeySets: 1
+    ......
+    
+    [com.android.providers.contacts]
+      Signing KeySets: 2
+    ......
+    
+    [com.android.cts.priv.ctsshim]
+      Signing KeySets: 6
+    ......
+    
+    [com.android.providers.media]
+      Signing KeySets: 4
+
+只有当２个 package　签名所用的　key 完全一致的时候，　它们的　KeySet　才完全一致
